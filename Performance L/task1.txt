@@ -1,0 +1,40 @@
+# task1
+# author: Kuznetsov A.
+# --------------------
+# Ќапишите программу, котора€ рассчитывает и подает на стандартный вывод следующие значени€:
+# - 90 перцентиль
+# - медиана
+# - максимальное значение
+# - минимальное значение
+# - среднее значение
+# ƒанные дл€ расчетов считываютс€ из файла, путь к которому подаетс€ в виде аргумента.
+# „исла в файле в пределах от -32 768 до 32 767
+#  аждое число с новой строки.
+# ¬ файле не более 1000 строк.
+# ¬ывод значений в указанной последовательности, каждое значение заканчиваетс€ символом новой строки.
+# ¬се значени€ с точностью до сотых: 2.5 2 0.03
+
+import sys
+import argparse as argp
+import numpy as np
+
+# получаем им€ файла с входными даными из командной строки
+def createParser ():
+    parser = argp.ArgumentParser()
+    parser.add_argument ('-n', '--name', required=True)
+    return parser
+
+if __name__ == '__main__':
+    parser = createParser()
+    namespace = parser.parse_args(sys.argv[1:])
+
+    # помещаем содержимое файла построчно в список
+    # поскольку в задании €вно не сказано, что значени€ целочисленные, на вс€кий случай используем float
+    fData = [float(line.rstrip('\n')) for line in open(namespace.name)]
+    
+    # выводим искомые значени€ с точностью до сотых
+    print (round(np.percentile(fData, 90),2)) # percentile 90
+    print (round(np.percentile(fData, 50),2)) # median
+    print (round(max(fData),2)) # max value
+    print (round(min(fData),2)) # min value
+    print (round(np.mean(fData),2)) # average
